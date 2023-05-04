@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import OverlayView from "../overlays/OverlayView";
-
+import { sensorsType } from "../Sensors/sensorsType";
 interface CustomMarkerProps {
   sensor: any;
   map?: google.maps.Map;
@@ -11,21 +11,27 @@ export default function Marker({
   map,
   highlight,
 }: CustomMarkerProps) {
+
+  function checkSensor1(type:string){
+    if(type == 'SBM20'){
+      return ' bg-red-500';
+    }
+    return 'rounded-lg bg-white'
+  }
   return (
     <>
       {map && (
         <OverlayView
           position={{
-            lat: sensor.lat as number,
-            lng: sensor.lng as number,
+            lat: parseFloat(sensor.lat),
+            lng: parseFloat(sensor.lng),
           }}
           map={map}
           zIndex={highlight ? 99 : 0}
         >
-          {/* use a button as the marker */}
-          <button id='sensor' className={`absolute z-[99] rounded-xl bg-white py-1.5 px-2 drop-shadow text-xs text-black"
-              }`}>{sensor.detector}</button>
+          <button id='sensor' className={`${checkSensor1(sensor.detector)} py-1.5 px-2 drop-shadow text-xs`}>{sensor.status}</button>
         </OverlayView>
+        
       )}
 
     </>

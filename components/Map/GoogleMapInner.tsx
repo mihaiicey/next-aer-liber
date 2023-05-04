@@ -1,10 +1,21 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  Children,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import type { ReactNode } from "react";
 import mapStyle from './mapStyle';
 interface MapProps extends google.maps.MapOptions {
   className: string;
+  children?: ReactNode;
 }
 
-const GoogleMapInner: FC<MapProps> = ({ className, ...options }) => {
+const GoogleMapInner: FC<MapProps> = ({ className, children, ...options }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -26,6 +37,13 @@ const GoogleMapInner: FC<MapProps> = ({ className, ...options }) => {
   return (
     <>
       <div ref={ref} className={className} style={{ height: '100%', width: '100%' }} />
+
+      {Children.map(children, (child) => {
+        if (isValidElement(child)) {
+          return cloneElement(child, { map });
+        }
+      })}
+      
     </>
   );
 };
