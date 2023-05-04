@@ -10,6 +10,7 @@ import {
 
 import type { ReactNode } from "react";
 import mapStyle from './mapStyle';
+import React from "react";
 interface MapProps extends google.maps.MapOptions {
   className: string;
   children?: ReactNode;
@@ -40,7 +41,7 @@ const GoogleMapInner: FC<MapProps> = ({ className, children, ...options }) => {
 
       {Children.map(children, (child) => {
         if (isValidElement(child)) {
-          return cloneElement(child, { map });
+          return React.cloneElement(child as React.ReactElement, { map });
         }
       })}
       

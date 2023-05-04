@@ -18,7 +18,6 @@ export default function Marker({
     }
     return 'rounded-lg bg-white'
   }
-  console.log(sensor)
   return (
     <>
       {map && (
