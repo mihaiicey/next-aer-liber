@@ -18,6 +18,7 @@ export default function Marker({
     }
     return 'rounded-lg bg-white'
   }
+  console.log(sensor)
   return (
     <>
       {map && (
@@ -29,7 +30,7 @@ export default function Marker({
           map={map}
           zIndex={highlight ? 99 : 0}
         >
-          <button id='sensor' className={`${checkSensor1(sensor.detector)} py-1.5 px-2 drop-shadow text-xs`}>{sensor.status}</button>
+          <button id='sensor' className={`${checkSensor1(sensor.detector)} py-1.5 px-2 drop-shadow text-xs`}>{sensor.detector}</button>
         </OverlayView>
         
       )}

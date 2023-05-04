@@ -38,7 +38,7 @@ const CitySensors: NextPage<Params> = (context) => {
 
   const { data, error } = useSWR(
     city
-      ? `https://aerliber.ro/wp-json/aerliberApi/beta/allsensorsloc?city=${city}`
+      ? `/api/sensors/allSensors?city=${city}`
       : null,
     fetcher,
     {
