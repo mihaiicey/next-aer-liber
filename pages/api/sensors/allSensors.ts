@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { city } = req.query;
     const allSensors = await prisma.wpfy_urm_devices.findMany({
       where: {
-        city: city !== 'all' ? city : undefined,
+        city: city as string,
         status: true
       },
       orderBy: {
