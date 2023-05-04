@@ -6,7 +6,7 @@ interface CustomMarkerProps {
   map?: google.maps.Map;
   highlight?: boolean;
 }
-export default function CustomMarker({
+export default function Marker({
   sensor,
   map,
   highlight,
@@ -23,8 +23,7 @@ export default function CustomMarker({
           zIndex={highlight ? 99 : 0}
         >
           {/* use a button as the marker */}
-          <button id='sensor' className={`rounded-full bg-zinc-600 py-1.5 px-2 drop-shadow text-xs text-white ${
-                highlight && "text-black bg-zinc-50 font-bold py-2 px-2.5"
+          <button id='sensor' className={`absolute z-[99] rounded-xl bg-white py-1.5 px-2 drop-shadow text-xs text-black"
               }`}>{sensor.detector}</button>
         </OverlayView>
       )}

@@ -1,11 +1,11 @@
-import React, { Component, useState, useRef, ReactElement, useEffect } from 'react';
+import React, { FC, Component, useState, useRef, ReactElement, useEffect } from 'react';
 import ReactDOM from "react-dom";
 import type { NextPage } from "next";
 import Head from "next/head";
 import useSWR from "swr";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import GoogleMapInner from './Map/GoogleMapInner';
-import CustomMarker from './Map/Marker';
+import Marker from './Map/Marker';
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
@@ -39,10 +39,9 @@ const CitySensors: NextPage<Params> = (context) => {
   if (!data) return <div>Loading</div>;
 
   return (
-  
     <div className="flex h-screen">
     <Wrapper apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`} render={render}>
-      <GoogleMapInner 
+      <GoogleMapInner    
         center={center}
         minZoom={2}
         maxZoom={18}
@@ -55,7 +54,7 @@ const CitySensors: NextPage<Params> = (context) => {
         className="grow h-full"
       />
       {data?.map((data:any, keyInd: any) => (
-            <CustomMarker
+            <Marker
               key={data.id || keyInd}
               sensor={data}
               // highlight={data.id === highlightedMarkerId}
