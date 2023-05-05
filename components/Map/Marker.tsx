@@ -75,7 +75,6 @@ export default function Marker({ sensor, map }: CustomMarkerProps) {
             {returnPM(sensor.sensordata, sensor.detector)}
           </button>
         </OverlayView>
-
       )}
     </>
   );
