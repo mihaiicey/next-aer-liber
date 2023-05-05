@@ -12,6 +12,11 @@ import { sensorsType } from "./Sensors/sensorsType";
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
+  const render = (status: Status): ReactElement => {
+    if (status === Status.LOADING) return <h3>{status} ..</h3>;
+    if (status === Status.FAILURE) return <h3>{status} ...</h3>;
+    return <></>;
+  };
 interface Params {
   city: string;
   lat: number;
@@ -19,6 +24,7 @@ interface Params {
 }
 
 const CitySensors: NextPage<Params> = (context) => {
+
   const [zoom, setZoom] = useState<number>(12);
   const [sensor, setSensor] = useState("poluare");
   const city = context.city;
@@ -28,21 +34,7 @@ const CitySensors: NextPage<Params> = (context) => {
   });
   const [newData, setNewData] = useState([]);
 
-  const onIdle = (map: google.maps.Map) => {
-    setZoom(map.getZoom()!);
 
-    const nextCenter = map.getCenter();
-
-    if (nextCenter) {
-      setCenter(nextCenter.toJSON());
-    }
-  };
-
-  const render = (status: Status): ReactElement => {
-    if (status === Status.LOADING) return <h3>{status} ..</h3>;
-    if (status === Status.FAILURE) return <h3>{status} ...</h3>;
-    return <></>;
-  };
   const { data, error } = useSWR(
     city ? `/api/sensors/sensorsWithData?city=${city}` : null,
     fetcher,
@@ -79,7 +71,6 @@ const CitySensors: NextPage<Params> = (context) => {
           minZoom={2}
           maxZoom={18}
           zoom={zoom}
-          onIdle={onIdle}
           fullscreenControl={false}
           streetViewControl={false}
           mapTypeControl={false}
@@ -101,6 +92,7 @@ const CitySensors: NextPage<Params> = (context) => {
           {newData?.map((data: any, keyInd: any) => (
             <Marker key={data.id || keyInd} sensor={data} />
           ))}
+          
         </GoogleMapInner>
 
       </Wrapper>

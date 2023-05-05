@@ -35,18 +35,6 @@ const GoogleMapInner: FC<MapProps> = ({ className, children,onIdle, ...options }
       map.setOptions(options);
     }
   }, [map, options]);
-  
-  useEffect(() => {
-    if (map) {
-      ["click", "idle"].forEach((eventName) =>
-        google.maps.event.clearListeners(map, eventName)
-      );
-      if (onIdle) {
-        map.addListener("idle", () => onIdle(map));
-      }
-    }
-    
-  }, [map,onIdle]);
 
   return (
     <>
@@ -54,7 +42,7 @@ const GoogleMapInner: FC<MapProps> = ({ className, children,onIdle, ...options }
 
       {Children.map(children, (child) => {
         if (isValidElement(child)) {
-          return React.cloneElement(child as React.ReactElement, { map });
+        return React.cloneElement(child as React.ReactElement, { map });
         }
       })}
       

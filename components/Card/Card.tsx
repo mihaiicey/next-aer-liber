@@ -18,6 +18,7 @@ export default function Card({ selected, detector, data }: CardProps) {
     >
       <div className="flex gap-2 p-2 rounded-lg shadow-xl bg-zinc-800 text-white">
         <div className="w-28">
+          {selected}
           {/* <p>
             <img src={imgUrl} alt={`Cat for ${name}`} className="rounded" />
           </p> */}

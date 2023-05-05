@@ -50,13 +50,14 @@ export default function Marker({ sensor, map }: CustomMarkerProps) {
   }
 
     const handleClick = (detector:string) => {
-      console.log(detector)
+      setSelSens(detector)
     }
   
   return (
     <>
       {map && (
-        <OverlayView
+        <>
+                <OverlayView
           position={{
             lat: parseFloat(sensor.lat),
             lng: parseFloat(sensor.lng),
@@ -75,6 +76,8 @@ export default function Marker({ sensor, map }: CustomMarkerProps) {
             {returnPM(sensor.sensordata, sensor.detector)}
           </button>
         </OverlayView>
+        </>
+
       )}
     </>
   );
