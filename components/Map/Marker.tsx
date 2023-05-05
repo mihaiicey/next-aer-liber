@@ -18,6 +18,18 @@ export default function Marker({
     }
     return 'rounded-lg bg-white'
   }
+  
+  function returnPM(data: string, type:string){
+    const sData = JSON.parse(data);
+    console.log(sData)
+    if(type == 'SBM20'){
+      const pol = sData.filter((obj: { sensor: string; }) => obj.sensor === 'cpm')
+      return `${pol[0].average} ${pol[0].unit}`
+    }
+    const pm25 = sData.filter((obj: { sensor: string; }) => obj.sensor === 'pm25')
+    return `${pm25[0].label}: ${pm25[0].average}${pm25[0].unit}`
+  }
+  
   return (
     <>
       {map && (
@@ -29,7 +41,7 @@ export default function Marker({
           map={map}
           zIndex={highlight ? 99 : 0}
         >
-          <button id='sensor' className={`${checkSensor1(sensor.detector)} py-1.5 px-2 drop-shadow text-xs`}>{sensor.detector}</button>
+          <button id='sensor' className={`${checkSensor1(sensor.detector)} py-1.5 px-2 drop-shadow text-xs`}>{returnPM(sensor.sensordata, sensor.detector)}</button>
         </OverlayView>
         
       )}

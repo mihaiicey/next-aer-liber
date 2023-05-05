@@ -24,7 +24,7 @@ interface Params {
 
 const CitySensors: NextPage<Params> = (context) => {
   const [zoom, setZoom] = useState<number>(15);
-  const city = context.city || 'all';
+  const city = context.city;
   const [center, setCenter] = useState<google.maps.LatLngLiteral>({
     lat: context.lat,
     lng: context.lng,
@@ -37,7 +37,7 @@ const CitySensors: NextPage<Params> = (context) => {
   };
   const { data, error } = useSWR(
     city
-      ? `/api/sensors/allSensors?city=${city}`
+      ? `/api/sensors/sensorsWithData?city=${city}`
       : null,
     fetcher,
     {

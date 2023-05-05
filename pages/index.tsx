@@ -5,6 +5,6 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <CitySensors city={'sibiu'} lat={45.79096706238455} lng={24.14851086004162}/>
+    <CitySensors city={'all'} lat={45.79096706238455} lng={24.14851086004162}/>
   )
 }
