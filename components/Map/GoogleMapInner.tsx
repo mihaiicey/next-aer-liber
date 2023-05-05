@@ -45,7 +45,8 @@ const GoogleMapInner: FC<MapProps> = ({ className, children,onIdle, ...options }
         map.addListener("idle", () => onIdle(map));
       }
     }
-  }, [map, onIdle]);
+    
+  }, [map,onIdle]);
 
   return (
     <>

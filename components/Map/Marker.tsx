@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import OverlayView from "../overlays/OverlayView";
+import GoogleMapsMarker from "./GoogleMapsMarker";
+import Card from "../Card/Card";
 interface CustomMarkerProps {
   sensor: any;
   map?: google.maps.Map;
-  highlight?: boolean;
 }
-export default function Marker({ sensor, map, highlight }: CustomMarkerProps) {
+export default function Marker({ sensor, map }: CustomMarkerProps) {
+  const [selSens, setSelSens ] = useState('')
   const getColor = (value: any) => {
     if (value < 10) {
       return "bg-[#6ab04c]";
@@ -47,6 +49,10 @@ export default function Marker({ sensor, map, highlight }: CustomMarkerProps) {
     return `rounded-full ${getColor(pm25[0].average)}`;
   }
 
+    const handleClick = (detector:string) => {
+      console.log(detector)
+    }
+  
   return (
     <>
       {map && (
@@ -56,18 +62,20 @@ export default function Marker({ sensor, map, highlight }: CustomMarkerProps) {
             lng: parseFloat(sensor.lng),
           }}
           map={map}
-          zIndex={highlight ? 99 : 0}
+          zIndex={99}
         >
           <button
             id="sensor"
             className={`${setDesignSensor(
               sensor.detector,
               sensor.sensordata
-            )} py-1.5 px-2 drop-shadow text-xs`}
+            )} py-1.5 px-2 drop-shadow text-xs cursor-pointer z-20`}
+            onClick={()=>handleClick(sensor.detector)}
           >
             {returnPM(sensor.sensordata, sensor.detector)}
           </button>
         </OverlayView>
+
       )}
     </>
   );

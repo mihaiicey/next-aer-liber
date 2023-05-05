@@ -64,6 +64,10 @@ const CitySensors: NextPage<Params> = (context) => {
     }
   }
 
+  function onMarkerClick(data:string): void {
+    console.log(data)
+  }
+
   return (
     <div className="flex h-screen">
       <Wrapper
@@ -98,6 +102,7 @@ const CitySensors: NextPage<Params> = (context) => {
             <Marker key={data.id || keyInd} sensor={data} />
           ))}
         </GoogleMapInner>
+
       </Wrapper>
     </div>
   );
