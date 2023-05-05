@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useState } from "react";
 import OverlayView from "../overlays/OverlayView";
-import { sensorsType } from "../Sensors/sensorsType";
+import { sensorsList } from "../Sensors/sensorsType";
 interface CustomMarkerProps {
   sensor: any;
   map?: google.maps.Map;
@@ -11,6 +11,7 @@ export default function Marker({
   map,
   highlight,
 }: CustomMarkerProps) {
+  const [selMeas, setSelMeas ] = useState('pm25')
 
   function checkSensor1(type:string){
     if(type == 'SBM20'){
@@ -21,7 +22,6 @@ export default function Marker({
   
   function returnPM(data: string, type:string){
     const sData = JSON.parse(data);
-    console.log(sData)
     if(type == 'SBM20'){
       const pol = sData.filter((obj: { sensor: string; }) => obj.sensor === 'cpm')
       return `${pol[0].average} ${pol[0].unit}`
@@ -29,9 +29,20 @@ export default function Marker({
     const pm25 = sData.filter((obj: { sensor: string; }) => obj.sensor === 'pm25')
     return `${pm25[0].label}: ${pm25[0].average}${pm25[0].unit}`
   }
-  
+
+  function returnSelectedVal(data:string){
+    const sData = JSON.parse(data);
+    const selectedVals = sData.filter((obj: { sensor: string; }) => obj.sensor === selMeas )
+    console.log(sData)
+    return 'ok';
+
+  }
+
+
   return (
     <>
+     
+
       {map && (
         <OverlayView
           position={{

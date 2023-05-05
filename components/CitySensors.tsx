@@ -13,6 +13,7 @@ import useSWR from "swr";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import GoogleMapInner from "./Map/GoogleMapInner";
 import Marker from "./Map/Marker";
+import { sensorsType } from "./Sensors/sensorsType";
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
@@ -24,28 +25,38 @@ interface Params {
 
 const CitySensors: NextPage<Params> = (context) => {
   const [zoom, setZoom] = useState<number>(15);
+  const [sensor, setSensor] = useState("poluare");
   const city = context.city;
   const [center, setCenter] = useState<google.maps.LatLngLiteral>({
     lat: context.lat,
     lng: context.lng,
   });
-
+  const [newData, setNewData] = useState([]);
   const render = (status: Status): ReactElement => {
     if (status === Status.LOADING) return <h3>{status} ..</h3>;
     if (status === Status.FAILURE) return <h3>{status} ...</h3>;
     return <></>;
   };
   const { data, error } = useSWR(
-    city
-      ? `/api/sensors/sensorsWithData?city=${city}`
-      : null,
+    city ? `/api/sensors/sensorsWithData?city=${city}` : null,
     fetcher,
     {
       revalidateOnFocus: true,
     }
   );
-  // if (error) return <div>Failed to load</div>;
-  // if (!data) return <div>Loading</div>;
+
+  useEffect(() => {
+    setNewData(data?.filter((obj: { detector: string }) => obj.detector !== 'SBM20'))
+  }, [data]);
+
+  function handleOptionChange(event: any) {
+    setSensor(event.target.value);
+    if(event.target.value === 'SBM20'){
+      setNewData(data.filter((obj: { detector: string; }) => obj.detector ===  'SBM20' ))
+    }else{
+      setNewData(data.filter((obj: { detector: string }) => obj.detector !== 'SBM20'))
+    }
+  }
 
   return (
     <div className="flex h-screen">
@@ -65,7 +76,18 @@ const CitySensors: NextPage<Params> = (context) => {
           clickableIcons={false}
           className="grow h-full"
         >
-          {data?.map((data: any, keyInd: any) => (
+          <select
+            className="absolute z-10 border-e px-4 py-2 top-4 left-4 text-sm/none rounded-md border bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-700 cursor-pointer"
+            value={sensor}
+            onChange={handleOptionChange}
+          >
+            {sensorsType.map((data: any, key: any) => (
+              <option key={key} value={data.name}>
+                {data.label}
+              </option>
+            ))}
+          </select>
+          {newData?.map((data: any, keyInd: any) => (
             <Marker key={data.id || keyInd} sensor={data} />
           ))}
         </GoogleMapInner>
