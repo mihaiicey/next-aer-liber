@@ -1,14 +1,9 @@
 import React, {
-  FC,
-  Component,
   useState,
-  useRef,
   ReactElement,
   useEffect,
 } from "react";
-import ReactDOM from "react-dom";
 import type { NextPage } from "next";
-import Head from "next/head";
 import useSWR from "swr";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import GoogleMapInner from "./Map/GoogleMapInner";
@@ -24,7 +19,7 @@ interface Params {
 }
 
 const CitySensors: NextPage<Params> = (context) => {
-  const [zoom, setZoom] = useState<number>(15);
+  const [zoom, setZoom] = useState<number>(12);
   const [sensor, setSensor] = useState("poluare");
   const city = context.city;
   const [center, setCenter] = useState<google.maps.LatLngLiteral>({
@@ -32,6 +27,17 @@ const CitySensors: NextPage<Params> = (context) => {
     lng: context.lng,
   });
   const [newData, setNewData] = useState([]);
+
+  const onIdle = (map: google.maps.Map) => {
+    setZoom(map.getZoom()!);
+
+    const nextCenter = map.getCenter();
+
+    if (nextCenter) {
+      setCenter(nextCenter.toJSON());
+    }
+  };
+
   const render = (status: Status): ReactElement => {
     if (status === Status.LOADING) return <h3>{status} ..</h3>;
     if (status === Status.FAILURE) return <h3>{status} ...</h3>;
@@ -68,7 +74,8 @@ const CitySensors: NextPage<Params> = (context) => {
           center={center}
           minZoom={2}
           maxZoom={18}
-          zoom={12}
+          zoom={zoom}
+          onIdle={onIdle}
           fullscreenControl={false}
           streetViewControl={false}
           mapTypeControl={false}

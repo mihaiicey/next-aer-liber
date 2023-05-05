@@ -14,9 +14,10 @@ import React from "react";
 interface MapProps extends google.maps.MapOptions {
   className: string;
   children?: ReactNode;
+  onIdle?: (map: google.maps.Map) => void;
 }
 
-const GoogleMapInner: FC<MapProps> = ({ className, children, ...options }) => {
+const GoogleMapInner: FC<MapProps> = ({ className, children,onIdle, ...options }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -34,6 +35,17 @@ const GoogleMapInner: FC<MapProps> = ({ className, children, ...options }) => {
       map.setOptions(options);
     }
   }, [map, options]);
+  
+  useEffect(() => {
+    if (map) {
+      ["click", "idle"].forEach((eventName) =>
+        google.maps.event.clearListeners(map, eventName)
+      );
+      if (onIdle) {
+        map.addListener("idle", () => onIdle(map));
+      }
+    }
+  }, [map, onIdle]);
 
   return (
     <>
