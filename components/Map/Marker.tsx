@@ -5,9 +5,9 @@ import Card from "../Card/Card";
 interface CustomMarkerProps {
   sensor: any;
   map?: google.maps.Map;
+  setSelSens: (detector: [] ) => void;
 }
-export default function Marker({ sensor, map }: CustomMarkerProps) {
-  const [selSens, setSelSens ] = useState('')
+export default function Marker({ sensor, map, setSelSens }: CustomMarkerProps) {
   const getColor = (value: any) => {
     if (value < 10) {
       return "bg-[#6ab04c]";
@@ -49,10 +49,9 @@ export default function Marker({ sensor, map }: CustomMarkerProps) {
     return `rounded-full ${getColor(pm25[0].average)}`;
   }
 
-    const handleClick = (detector:string) => {
-      setSelSens(detector)
+    const handleClick = (sensor:[]) => {
+      setSelSens(sensor)
     }
-  
   return (
     <>
       {map && (
@@ -71,7 +70,7 @@ export default function Marker({ sensor, map }: CustomMarkerProps) {
               sensor.detector,
               sensor.sensordata
             )} py-1.5 px-2 drop-shadow text-xs cursor-pointer z-20`}
-            onClick={()=>handleClick(sensor.detector)}
+            onClick={()=>handleClick(sensor)}
           >
             {returnPM(sensor.sensordata, sensor.detector)}
           </button>

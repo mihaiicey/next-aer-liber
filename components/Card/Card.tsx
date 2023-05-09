@@ -1,14 +1,22 @@
 import { motion } from "framer-motion";
+import { NextPage } from "next";
 // import { ImStarFull, ImStarHalf } from "react-icons/im";
 
 interface CardProps {
-  selected: string;
-  detector:string;
-  data: [];
+  sensor: ArraySens[];
+}
+interface ArraySens {
+  id: string;
+  lat: string;
+  lng: string;
+  city: string;
+  area: string;
+  detector: string;
+  status: number;
+  sensordata: string;
 }
 
-export default function Card({ selected, detector, data }: CardProps) {
-  (selected === detector)
+const Card: NextPage<CardProps> = (sensor) => {
   return (
     <motion.div
       className="absolute bottom-6 left-0 right-0 mx-auto my-0 w-80"
@@ -18,24 +26,14 @@ export default function Card({ selected, detector, data }: CardProps) {
     >
       <div className="flex gap-2 p-2 rounded-lg shadow-xl bg-zinc-800 text-white">
         <div className="w-28">
-          {selected}
+          {/* {detector} */}
           {/* <p>
             <img src={imgUrl} alt={`Cat for ${name}`} className="rounded" />
           </p> */}
         </div>
         <div className="grow">
-          <h1 className="font-bold">
-            {/* {url && (
-              <a
-                href={url}
-                className="text-sky-400"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {name}
-              </a>
-            )}
-            {!url && name} */}
+          <h1 className="text-sm font-bold text-white">
+            {/* {detector} */}
           </h1>
           <p className="text-sm"> </p>
           <div className="flex items-center gap-1 text-sm text-amber-400">
@@ -50,3 +48,4 @@ export default function Card({ selected, detector, data }: CardProps) {
     </motion.div>
   );
 }
+export default Card;

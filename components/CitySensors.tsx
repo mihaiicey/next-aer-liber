@@ -9,6 +9,7 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import GoogleMapInner from "./Map/GoogleMapInner";
 import Marker from "./Map/Marker";
 import { sensorsType } from "./Sensors/sensorsType";
+import Card from "./Card/Card";
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
@@ -32,8 +33,8 @@ const CitySensors: NextPage<Params> = (context) => {
     lat: context.lat,
     lng: context.lng,
   });
-  const [newData, setNewData] = useState([]);
-
+  const [newData, setNewData] = useState<any[]>([]);
+  const [sensorpop, setSensorPop] = useState<any[]>([]);
 
   const { data, error } = useSWR(
     city ? `/api/sensors/sensorsWithData?city=${city}` : null,
@@ -56,10 +57,11 @@ const CitySensors: NextPage<Params> = (context) => {
     }
   }
 
-  function onMarkerClick(data:string): void {
-    console.log(data)
-  }
+  const handleSensorChange = (sensor:any[]) => {
+    setSensorPop(sensor);
+ };
 
+ console.log(sensorpop)
   return (
     <div className="flex h-screen">
       <Wrapper
@@ -90,11 +92,13 @@ const CitySensors: NextPage<Params> = (context) => {
             ))}
           </select>
           {newData?.map((data: any, keyInd: any) => (
-            <Marker key={data.id || keyInd} sensor={data} />
+            <Marker key={data.id || keyInd} sensor={data} setSelSens={handleSensorChange} />
           ))}
-          
+          {sensorpop && (
+            <Card sensor={sensorpop} />
+          )}
         </GoogleMapInner>
-
+        
       </Wrapper>
     </div>
   );
