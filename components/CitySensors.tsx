@@ -10,6 +10,7 @@ import GoogleMapInner from "./Map/GoogleMapInner";
 import Marker from "./Map/Marker";
 import { sensorsType } from "./Sensors/sensorsType";
 import Card from "./Card/Card";
+import { SensorArray } from "../types/types";
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
@@ -33,8 +34,9 @@ const CitySensors: NextPage<Params> = (context) => {
     lat: context.lat,
     lng: context.lng,
   });
-  const [newData, setNewData] = useState<any[]>([]);
-  const [sensorpop, setSensorPop] = useState<any[]>([]);
+  const [newData, setNewData] =  useState<any[]>([]);
+  const [sensorpop, setSensorPop] = useState<SensorArray | null>(null);
+  const [isCasutaSenzorVisible, setCasutaSenzorVisible] = useState(false);
 
   const { data, error } = useSWR(
     city ? `/api/sensors/sensorsWithData?city=${city}` : null,
@@ -52,16 +54,28 @@ const CitySensors: NextPage<Params> = (context) => {
     setSensor(event.target.value);
     if(event.target.value === 'SBM20'){
       setNewData(data.filter((obj: { detector: string; }) => obj.detector ===  'SBM20' ))
+      setSensorPop(null);
     }else{
       setNewData(data.filter((obj: { detector: string }) => obj.detector !== 'SBM20'))
+      setSensorPop(null);
     }
   }
 
-  const handleSensorChange = (sensor:any[]) => {
-    setSensorPop(sensor);
- };
-
- console.log(sensorpop)
+  const handleSensorChange = (sensor: SensorArray) => {
+    if (sensorpop) {
+      // Stergere valorile anterioare
+      setSensorPop(null);
+      // Așteptarea unei jumătăți de secundă folosind Promisiunea
+      const wait = () => new Promise((resolve) => setTimeout(resolve, 200));
+      wait().then(() => {
+        // Setare date noi
+        setSensorPop(sensor);
+      });
+    } else {
+      // Setare directă a datelor noi
+      setSensorPop(sensor);
+    }
+  };
   return (
     <div className="flex h-screen">
       <Wrapper

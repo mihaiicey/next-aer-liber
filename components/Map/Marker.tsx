@@ -2,10 +2,11 @@ import { useCallback, useState } from "react";
 import OverlayView from "../overlays/OverlayView";
 import GoogleMapsMarker from "./GoogleMapsMarker";
 import Card from "../Card/Card";
+import { SensorArray } from "../../types/types";
 interface CustomMarkerProps {
   sensor: any;
   map?: google.maps.Map;
-  setSelSens: (detector: [] ) => void;
+  setSelSens: (sensor: SensorArray) => void;
 }
 export default function Marker({ sensor, map, setSelSens }: CustomMarkerProps) {
   const getColor = (value: any) => {
@@ -49,7 +50,7 @@ export default function Marker({ sensor, map, setSelSens }: CustomMarkerProps) {
     return `rounded-full ${getColor(pm25[0].average)}`;
   }
 
-    const handleClick = (sensor:[]) => {
+    const handleClick = (sensor:SensorArray) => {
       setSelSens(sensor)
     }
   return (
