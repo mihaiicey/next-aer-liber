@@ -67,11 +67,17 @@ const CitySensors: NextPage<Params> = (context) => {
       const wait = () => new Promise((resolve) => setTimeout(resolve, 200));
       wait().then(() => {
         setSensorPop(sensor);
+        setCasutaSenzorVisible(true)
       });
     } else {
       setSensorPop(sensor);
+      setCasutaSenzorVisible(true)
     }
   };
+  const handlePopUp = (value: boolean) => {
+    setCasutaSenzorVisible(value)
+  }
+
   return (
     <div className="flex h-screen">
       <Wrapper
@@ -105,7 +111,7 @@ const CitySensors: NextPage<Params> = (context) => {
             <Marker key={data.id || keyInd} sensor={data} setSelSens={handleSensorChange} />
           ))}
           {sensorpop && (
-            <Card sensor={sensorpop} />
+            <Card isOpen={isCasutaSenzorVisible} setCasutaSenzorVisible={setCasutaSenzorVisible} sensor={sensorpop} />
           )}
         </GoogleMapInner>
         
