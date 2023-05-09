@@ -63,16 +63,12 @@ const CitySensors: NextPage<Params> = (context) => {
 
   const handleSensorChange = (sensor: SensorArray) => {
     if (sensorpop) {
-      // Stergere valorile anterioare
       setSensorPop(null);
-      // Așteptarea unei jumătăți de secundă folosind Promisiunea
       const wait = () => new Promise((resolve) => setTimeout(resolve, 200));
       wait().then(() => {
-        // Setare date noi
         setSensorPop(sensor);
       });
     } else {
-      // Setare directă a datelor noi
       setSensorPop(sensor);
     }
   };
