@@ -19,8 +19,6 @@ const Card: NextPage<CardProps> = ({ sensor, isOpen, setCasutaSenzorVisible }) =
   function closeModal() {
     setCasutaSenzorVisible(false)
   }
-  console.log(isOpen)
-
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
