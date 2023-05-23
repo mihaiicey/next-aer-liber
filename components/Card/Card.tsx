@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { Dialog, Transition } from '@headlessui/react'
 import { SensorArray } from "../../types/types";
 import { Fragment, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 interface CardProps {
   sensor: SensorArray;
@@ -18,7 +19,7 @@ const Card: NextPage<CardProps> = ({ sensor, isOpen, setCasutaSenzorVisible }) =
 
   function closeModal() {
     setCasutaSenzorVisible(false)
-  }
+  }  
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -89,6 +90,13 @@ const Card: NextPage<CardProps> = ({ sensor, isOpen, setCasutaSenzorVisible }) =
                     >
                       X
                     </button>
+                  </div>
+                  <div className="w-full text-right">
+                  <Link href={`/sensor/${sensor.id}`}
+                    className="text-white absolut px-2 py-1" 
+                    >
+                    Detalii...
+                    </Link>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
