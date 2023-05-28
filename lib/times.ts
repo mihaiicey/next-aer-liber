@@ -11,3 +11,10 @@ export const formatTimestamp = (timestamp: number): string => {
   
     return `${formattedDate} ${formattedTime}`;
   };
+
+// export const convertHMS = (timearray:number) => {
+//   const timeString = timearray.toString();
+//   const arr = timeString.split(":");
+//   const seconds = arr[0]*3600+arr[1]*60+(+arr[2]);
+//   return seconds;
+// }

@@ -79,7 +79,7 @@ const CitySensors: NextPage<Params> = (context) => {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen relative">
       <Wrapper
         apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
         render={render}

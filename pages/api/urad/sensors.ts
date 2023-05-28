@@ -4,16 +4,15 @@ export default async function UradSensor(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  applyRateLimit(req, res)
-    .then(async () => {
-
+  // applyRateLimit(req, res)
+  //   .then(async () => {
       const token = req.headers["authorization"];
 
       if (token !== process.env.MY_SECRET_TOKEN) {
         return res.status(401).json({
-        success: false,
-        message: [{err:'not allowed'}],
-      });
+          success: false,
+          message: [{ err: "not allowed" }],
+        });
       }
 
       const { id, sensor, startInt, endInt } = req?.query ?? {};
@@ -66,11 +65,11 @@ export default async function UradSensor(
       }
       return res.status(404).send({
         success: false,
-        message: [{err:'notfound'}],
+        message: [{ err: "notfound" }],
       });
-    })
-    .catch((error: Error) => {
-      // Tratează eroarea de rate limit aici
-      res.status(429).json({ error: "Too Many Requests" });
-    });
+    // })
+    // .catch((error: Error) => {
+    //   // Tratează eroarea de rate limit aici
+    //   res.status(429).json({ error: "Too Many Requests" });
+    // });
 }
