@@ -5,9 +5,9 @@ export default function Sustinene() {
   return (
     <>
       <PageBanner title="Susține-ne" />
-      <div className="max-w-6xl mx-auto mt-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+      <div className="max-w-6xl mx-2 md:mx-auto mt-8">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-4/6 mr-4">
             <h2 className="text-3xl font-bold mb-2 text-primary">Donează</h2>
             <p className="text-thirt text-base">
               Ca orice proiect aflat la început de drum, dar a cărei strategie
@@ -19,7 +19,7 @@ export default function Sustinene() {
               schimbările benefice care asigură sănătatea și bunăstarea tuturor.
             </p>
           </div>
-          <div>
+          <div className="w-full md:w-1/3 mt-4">
             <Donatie/>
           </div>
         </div>
